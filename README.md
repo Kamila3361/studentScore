@@ -2,7 +2,9 @@
 Запуск проекта: 
 uvicorn app.main:app --reload
 
-Документация
+http://127.0.0.1:8000/docs (FastAPI Swagger documentation)
+
+Документация 
 
 POST /students/ -
     
