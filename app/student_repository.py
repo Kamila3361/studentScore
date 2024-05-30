@@ -2,18 +2,18 @@ from sqlalchemy import Column, Integer, String, update
 from sqlalchemy.orm import Session, relationship
 from .database import Base
 
-from pydantic import BaseModel
+from pydantic import BaseModel, conint, Field
 from attrs import define
 
 class Student(Base):
     __tablename__ = "students"
 
-    id = Column(Integer, primary_key=True)
-    first_name = Column(String)
-    second_name = Column(String)
+    id = Column(Integer, primary_key=True, index=True)
+    first_name = Column(String, index=True)
+    second_name = Column(String, index=True)
     school = Column(String)
-    grade_number = Column(Integer, max=11, min=0)
-    grade_letter = Column(String, max_length = 1)
+    grade_number = Column(Integer)
+    grade_letter = Column(String(1))
 
     score = relationship("Score", back_populates="student")
 
@@ -21,8 +21,8 @@ class StudentRequest(BaseModel):
     first_name: str
     second_name: str
     school: str
-    grade_number: int
-    grade_letter: str
+    grade_number: conint(ge=0, le=11)  
+    grade_letter: str = Field(..., max_length=1)
 
 @define
 class StudentSave():
